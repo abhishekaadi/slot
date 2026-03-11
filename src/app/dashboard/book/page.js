@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 export default function BookSlot() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [categoriesData, setCategoriesData] = useState({});
   const [formData, setFormData] = useState({
     location: '', category: '', batchName: '', channelName: '',
     lectureType: '', rec: false, studioCode: '', facultyEmail: '',
@@ -12,12 +13,21 @@ export default function BookSlot() {
     recurrenceWeeks: 1
   });
 
-  const categories = ['YT', 'JKBose', 'Foundation', 'UGC NET', 'SSC', 'Railway', 'Banking', 'UP Boards', 'Bihar Exams', 'Agriculture'];
   const lectureTypes = ['Live', 'AWS', 'Zoom', 'YT Paid', 'YT Free', 'YT + Zoom', 'YT + Secure', 'YT Multi Channel Live', 'YT + FB', 'Fake Live', 'G-Meet', 'Telegram', 'Pathshala(TX)'];
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
     setFormData(prev => ({...prev, date: today}));
+    
+    // Fetch dynamic categories from Google Sheets
+    fetch('/api/meta/categories')
+       .then(res => res.json())
+       .then(data => {
+           if(data.success) {
+               setCategoriesData(data.data);
+           }
+       })
+       .catch(err => console.error("Failed to load categories", err));
   }, []);
 
   // Example auto-fill for studio code based on location
@@ -30,6 +40,11 @@ export default function BookSlot() {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+  };
+
+  const handleCategoryChange = (e) => {
+      // Reset sub-selections when category changes
+      setFormData(prev => ({ ...prev, category: e.target.value, batchName: '', channelName: '' }));
   };
 
   const handleSubmit = async (e) => {
@@ -56,6 +71,9 @@ export default function BookSlot() {
       setLoading(false);
     }
   };
+
+  const availableSubItems = formData.category ? categoriesData[formData.category] || [] : [];
+  const isYT = formData.category && formData.category.toLowerCase().includes('yt');
 
   return (
     <div className="dashboard-container" style={{maxWidth: '800px', margin: '0 auto'}}>
@@ -99,21 +117,27 @@ export default function BookSlot() {
         <div className="form-group row">
              <div className="col">
                 <label>Category</label>
-                <select name="category" required value={formData.category} onChange={handleChange} className="input-field w-100">
+                <select name="category" required value={formData.category} onChange={handleCategoryChange} className="input-field w-100">
                     <option value="">Select Category</option>
-                    {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                    {Object.keys(categoriesData).sort().map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
              </div>
              <div className="col">
-                {formData.category === 'YT' ? (
+                {isYT ? (
                     <>
                     <label>Channel Name</label>
-                    <input type="text" name="channelName" required={formData.category === 'YT'} value={formData.channelName} onChange={handleChange} className="input-field w-100" placeholder="e.g. NCERT Wallah" />
+                    <select name="channelName" required value={formData.channelName} onChange={handleChange} className="input-field w-100">
+                        <option value="">Select Channel</option>
+                        {availableSubItems.map(b => <option key={b} value={b}>{b}</option>)}
+                    </select>
                     </>
                 ) : (
                     <>
                     <label>Batch Name</label>
-                    <input type="text" name="batchName" required={formData.category !== 'YT' && formData.category !== ''} value={formData.batchName} onChange={handleChange} className="input-field w-100" placeholder="e.g. Uday JAC Board" />
+                    <select name="batchName" required={formData.category !== ''} value={formData.batchName} onChange={handleChange} className="input-field w-100">
+                        <option value="">Select Batch</option>
+                        {availableSubItems.map(b => <option key={b} value={b}>{b}</option>)}
+                     </select>
                     </>
                 )}
              </div>
@@ -127,10 +151,14 @@ export default function BookSlot() {
                     {lectureTypes.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
             </div>
-            <div className="col" style={{display: 'flex', alignItems: 'flex-end', paddingBottom: '10px'}}>
-                <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}>
-                    <input type="checkbox" name="rec" checked={formData.rec} onChange={handleChange} style={{marginRight: '8px', width: '18px', height: '18px'}} />
-                    REC
+            <div className="col" style={{display: 'flex', alignItems: 'flex-end', paddingBottom: '10px', gap: '24px'}}>
+                <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer', color: !formData.rec ? '#58a6ff' : '#c9d1d9'}}>
+                    <input type="radio" required name="recMode" checked={formData.rec === false} onChange={() => setFormData(p => ({...p, rec: false}))} style={{marginRight: '8px', width: '18px', height: '18px', accentColor: '#58a6ff'}} />
+                    Live
+                </label>
+                <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer', color: formData.rec ? '#58a6ff' : '#c9d1d9'}}>
+                    <input type="radio" required name="recMode" checked={formData.rec === true} onChange={() => setFormData(p => ({...p, rec: true}))} style={{marginRight: '8px', width: '18px', height: '18px', accentColor: '#58a6ff'}} />
+                    Rec
                 </label>
             </div>
         </div>
