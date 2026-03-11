@@ -1,5 +1,5 @@
-import dbConnect from '../../lib/dbConnect';
-import { CategoryData } from '../../models/CategoryData';
+import dbConnect from '@/lib/dbConnect';
+import { CategoryData } from '@/models/CategoryData';
 
 export async function GET(request) {
   try {

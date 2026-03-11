@@ -1,5 +1,5 @@
-import dbConnect from '../../../lib/dbConnect';
-import { Slot } from '../../../models/Slot';
+import dbConnect from '@/lib/dbConnect';
+import { Slot } from '@/models/Slot';
 
 export async function PUT(request, { params }) {
   try {

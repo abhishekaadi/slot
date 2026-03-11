@@ -8,12 +8,17 @@ export default function BookSlot() {
   const [formData, setFormData] = useState({
     location: '', category: '', batchName: '', channelName: '',
     lectureType: '', rec: false, studioCode: '', facultyEmail: '',
-    facultyName: '', date: new Date().toISOString().split('T')[0], startTime: '', endTime: '',
+    facultyName: '', date: '', startTime: '', endTime: '',
     recurrenceWeeks: 1
   });
 
   const categories = ['YT', 'JKBose', 'Foundation', 'UGC NET', 'SSC', 'Railway', 'Banking', 'UP Boards', 'Bihar Exams', 'Agriculture'];
   const lectureTypes = ['Live', 'AWS', 'Zoom', 'YT Paid', 'YT Free', 'YT + Zoom', 'YT + Secure', 'YT Multi Channel Live', 'YT + FB', 'Fake Live', 'G-Meet', 'Telegram', 'Pathshala(TX)'];
+
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    setFormData(prev => ({...prev, date: today}));
+  }, []);
 
   // Example auto-fill for studio code based on location
   useEffect(() => {
