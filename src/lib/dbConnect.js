@@ -20,9 +20,12 @@ async function dbConnect() {
     const opts = {
       bufferCommands: false,
       serverSelectionTimeoutMS: 5000,
-      family: 4 // IPv4 to avoid Docker resolution hangs
+      family: 4, // IPv4 to avoid Docker resolution hangs
+      maxIdleTimeMS: 10000,
+      socketTimeoutMS: 45000,
     };
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log("MongoDB Connected");
       return mongoose;
     });
   }

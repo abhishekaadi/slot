@@ -1,9 +1,10 @@
 import dbConnect from '@/lib/dbConnect';
 import { Slot } from '@/models/Slot';
 
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { id } = await params;
+    const params = await context.params;
+    const { id } = params;
     const body = await request.json();
     await dbConnect();
 
@@ -45,9 +46,10 @@ export async function PUT(request, { params }) {
   }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const { id } = await params;
+    const params = await context.params;
+    const { id } = params;
     await dbConnect();
     
     // Instead of true physical delete, we do a soft delete or just remove it

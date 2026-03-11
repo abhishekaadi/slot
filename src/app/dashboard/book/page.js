@@ -6,6 +6,7 @@ export default function BookSlot() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [categoriesData, setCategoriesData] = useState({});
+  const [facultyData, setFacultyData] = useState([]);
   const [formData, setFormData] = useState({
     location: '', category: '', batchName: '', channelName: '',
     lectureType: '', rec: false, studioCode: '', facultyEmail: '',
@@ -19,15 +20,17 @@ export default function BookSlot() {
     const today = new Date().toISOString().split('T')[0];
     setFormData(prev => ({...prev, date: today}));
     
-    // Fetch dynamic categories from Google Sheets
+    // Fetch dynamic categories
     fetch('/api/meta/categories')
        .then(res => res.json())
-       .then(data => {
-           if(data.success) {
-               setCategoriesData(data.data);
-           }
-       })
-       .catch(err => console.error("Failed to load categories", err));
+       .then(data => { if(data.success) setCategoriesData(data.data); })
+       .catch(err => console.error(err));
+
+    // Fetch dynamic faculties
+    fetch('/api/meta/faculties')
+       .then(res => res.json())
+       .then(data => { if(data.success) setFacultyData(data.data); })
+       .catch(err => console.error(err));
   }, []);
 
   // Example auto-fill for studio code based on location
@@ -39,7 +42,15 @@ export default function BookSlot() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    setFormData(prev => {
+        const newData = { ...prev, [name]: type === 'checkbox' ? checked : value };
+        // Auto-fill Faculty Name if Faculty Email is recognized
+        if(name === 'facultyEmail') {
+             const found = facultyData.find(f => f.email === value);
+             if(found) newData.facultyName = found.name;
+        }
+        return newData;
+    });
   };
 
   const handleCategoryChange = (e) => {
@@ -166,7 +177,10 @@ export default function BookSlot() {
         <div className="form-group row">
             <div className="col">
                 <label>Faculty Email</label>
-                <input type="email" name="facultyEmail" required value={formData.facultyEmail} onChange={handleChange} className="input-field w-100" placeholder="faculty@pw.live" />
+                <input list="faculty-emails" type="email" name="facultyEmail" required value={formData.facultyEmail} onChange={handleChange} className="input-field w-100" placeholder="faculty@pw.live" />
+                <datalist id="faculty-emails">
+                    {facultyData.map(f => <option key={f.email} value={f.email}>{f.name}</option>)}
+                </datalist>
             </div>
             <div className="col">
                 <label>Faculty Name</label>
