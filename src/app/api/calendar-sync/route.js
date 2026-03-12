@@ -16,10 +16,11 @@ export async function GET(request) {
 
 async function handleSync(request) {
   try {
-    const calendarId = process.env.GOOGLE_CALENDAR_ID;
+    let calendarId = process.env.GOOGLE_CALENDAR_ID;
     if (!calendarId) {
        return Response.json({ success: false, error: "GOOGLE_CALENDAR_ID not found in environment." }, { status: 400 });
     }
+    calendarId = calendarId.replace(/^["']|["']$/g, '');
 
     // Determine how far back to look for updates.
     // For a real production app, you would store the `lastSyncTime` in the DB.

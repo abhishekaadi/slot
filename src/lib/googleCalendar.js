@@ -47,19 +47,29 @@ export async function getCalendarClient() {
      throw new Error("Missing Google Service Account credentials in .env.local");
   }
 
+  let email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+  if (!email) throw new Error("Missing Google Service Account Email");
+  email = email.replace(/^["']|["']$/g, '');
+
   let privateKey = process.env.GOOGLE_PRIVATE_KEY;
   if (!privateKey) throw new Error("Missing Google Service Account Private Key");
 
-  // Remove surrounding quotes if Docker or dotenv left them in the parsed string
-  if ((privateKey.startsWith('"') && privateKey.endsWith('"')) || (privateKey.startsWith("'") && privateKey.endsWith("'"))) {
-      privateKey = privateKey.slice(1, -1);
-  }
-  
-  // Ensure actual newlines instead of escaped \n
+  // A very robust approach to handling keys parsed from Docker env_files or .env:
+  // 1. Remove surrounding string single/double quotes
+  privateKey = privateKey.replace(/^["']|["']$/g, '');
+  // 2. Remove any carriage returns that Windows/Docker might append
+  privateKey = privateKey.replace(/\r/g, '');
+  // 3. Replace actual literal "\n" characters with a real newline char
   privateKey = privateKey.replace(/\\n/g, '\n');
+  // 4. Sometimes multiple slashes are used
+  privateKey = privateKey.replace(/\\\\n/g, '\n');
+  
+  if (!privateKey.includes('-----BEGIN PRIVATE KEY-----') || !privateKey.includes('-----END PRIVATE KEY-----')) {
+     throw new Error("Private Key is severely malformed. It must include 'BEGIN PRIVATE KEY' and 'END PRIVATE KEY'. Check your .env.local file.");
+  }
 
   const jwtClient = new google.auth.JWT(
-    process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    email,
     null,
     privateKey,
     ['https://www.googleapis.com/auth/calendar.readonly']
