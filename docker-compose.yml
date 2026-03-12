@@ -7,8 +7,8 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - MONGODB_URI=mongodb://mongodb:27017/slotbooking
-      - NEXTAUTH_URL=http://localhost:3000
+    env_file:
+      - .env.local
     volumes:
       - ./:/app
       - /app/node_modules

@@ -7,6 +7,14 @@ import { fetchRecentEvents, extractSlotDataFromEvent } from '@/lib/googleCalenda
  * This can be triggered manually or via a CRON job (e.g. GitHub Actions, Vercel cron, etc.)
  */
 export async function POST(request) {
+  return handleSync(request);
+}
+
+export async function GET(request) {
+  return handleSync(request);
+}
+
+async function handleSync(request) {
   try {
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
     if (!calendarId) {
