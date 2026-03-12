@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "slot-booking-490010",
+  "private_key_id": "2dafb5bd788b17bdbc6b5cdcd5fc165a672ed648",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDYruWnA4EP3EIM\njpfFSvHBXiHfOC+c+F8a/O+dUexqQCmznRtmQ4yEGODocptqHtGHzi1oiqjmIgNi\n3zYumtTqhgUu0O7RSncU7gUL08XSHfqkwssf0qMLRTTLjIcCFEtcSQlG9JUlRDv2\nM+soBVp62b+9JKiN2VFvsojYBQY37c5CAMq8MbodxmV4XR2pGcdE9+98I9qm0mMW\nTuGOHEwyjs6mQca+fsQ33Aj2MDE/TpWuvb9oxz4e4+2KbMUHZD8qAoLqYArrTuyP\nkr1IwHh26XGxSVGsL1eBaOsQlmwtz2brWP76TcUvHPnK+MAPpVAQAN5NxLf6eOiG\nYzDirlTNAgMBAAECggEAA/4I9jBO1vN4dhHEgxqT5LuuxRWcbvh2jCE/6vag8/41\npn0NDa/N7Xsl3bKK4YQq2SU32fbAEOlshYxWS7qHlMCeZNPtqoaENisChcrDmND7\nlsCODIqNfX4rcFqo/CVSlCM2XAvSmaqtriYbvZOHrL7JVRtRTbfE09mGwvAowqwC\n0uoS936SOlOHQhpEC8Ztxd8WrCJe/MJDpudGTXXjPTpTv3smrmZbaAQilJeCRSE6\n7yYW7l+HCpapCZYT8OUoA2HUv0XWZUHMCPhJDLeyY5rTQi1hANJvBDfRtQ3I0ORN\nAM+icZQvBNFF/0j+u+o8HDQ1CrRuPARMkh88WNKpEQKBgQD0tUYaKnWEkaSGsUrH\n6C03DGIS1dvsIE+8PA7xyNnD5inRy+sVTAwXx2yPYKt0AlfexprH/iWX4Q7F1bAx\n11ZSXwt/1Qf8DXMFAWIbFSi4hiktt9WKLcPeaGT578JcXaqZq0utIADna3x26gnF\nLTUvrC+cj6q36FCUdbhvOqCH1QKBgQDirpDzBPQh2jP6oQLTrYfZZ/+lDl4qtU+T\noVdR4WqqaEJve+kM6vduj0Yc42mhpc1A2ATYJzi5MRHDRI9OL0qvTWIMfuf525eT\ncARR2YsBtH7IsOqSV9kCcmlnWYrXK2N49ASSybyS7Mz3XWJO9wJoKu6RXs9HvapF\nWOWYaI5NGQKBgG+PrRQEw2ra0z0s2sDkkqiEFrorkYXG/VL9tnp4bP8okWw6IUSm\nVOUKX+3FzqSm5NSFis8eiJkDW67JyvgOCianeiCfSHKa1xMzHDzompX1ZBSZuNq0\nHpXo1hA0RFHDyiEgvPGCo6bdk/LKpAWmpJbFUzd3MAeD/CiSurDK86C5AoGAWnZj\n7jfp3aCg4cJjyGoWLtLsGMi1F8InsbjPiiO1V7An4ynGBZu3hu2yg1DWFOaAFQKg\nXEq6vl0ww4aW0hLZcUAmguoaVYIm6XXoo2l3qgSIHDtOQXzBY9KY8d+wItJz7g8j\nzBiqItBRs94Wn4C/+yY28titS+oLC4XAiqQfNfECgYBTBVgwxVFDfMa0y+emmf/1\n1Xue26uXtp2TBGZuC8MBu8zulBXKnaGd2/0jm8QDR0H2POapncmYxTjTxKF86Ahp\nMXmgn9CA5KnDBS7f7nWRAQtyELgcKbo/cqyxNXViMTXRQtGfS8b6vN6Ht8twbkV8\num1gQTALxAy+2OqaZJGvig==\n-----END PRIVATE KEY-----\n",
+  "client_email": "calendar-sync@slot-booking-490010.iam.gserviceaccount.com",
+  "client_id": "116739801390664774058",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/calendar-sync%40slot-booking-490010.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
